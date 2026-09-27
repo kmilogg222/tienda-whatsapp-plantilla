@@ -1,0 +1,184 @@
+/* Estados: sin resultados, modo demostración, tienda vacía, sin foto */
+
+/* 13. ESTADO VACÍO / SIN RESULTADOS */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 1rem;
+  text-align: center;
+}
+
+.empty-state-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--bg-surface-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.empty-state h1,
+.empty-state h2,
+.empty-state h3 {
+  font-size: 1.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  max-width: 320px;
+  margin-bottom: 1.25rem;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.55rem 1.25rem;
+  border-radius: var(--radius-button);
+  background-color: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.btn-secondary:hover {
+  background-color: var(--interactive-bg-hover);
+  border-color: var(--border-hover);
+}
+
+/* ==========================================================================
+   ESTADOS DE LA TIENDA: MODO DEMOSTRACIÓN, SIN PRODUCTOS, SIN FOTO
+   ========================================================================== */
+
+.demo-mode-banner {
+  padding: 0.4rem 1rem;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  background-color: var(--bg-surface-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.demo-mode-banner a {
+  color: var(--accent-text);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.store-status {
+  min-height: 50vh;
+}
+
+.image-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  background-color: var(--bg-media-placeholder);
+}
+
+/* ESQUELETO DE CARGA (portada y catálogo) */
+.skeleton {
+  background-color: var(--bg-media-placeholder);
+  border-radius: var(--radius-sm);
+  animation: skeletonPulse 1.4s ease-in-out infinite;
+}
+
+.skeleton-header {
+  height: var(--header-height);
+  border-radius: 0;
+  margin-bottom: 1.25rem;
+}
+
+.skeleton-search {
+  height: 50px;
+  border-radius: var(--radius-button);
+}
+
+.skeleton-pills {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0 2rem;
+  overflow: hidden;
+}
+
+.skeleton-pill {
+  flex: 0 0 96px;
+  height: 44px;
+  border-radius: var(--radius-button);
+}
+
+.skeleton-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.skeleton-media {
+  aspect-ratio: var(--image-ratio);
+  border-radius: var(--radius-md);
+}
+
+.skeleton-line {
+  height: 0.9rem;
+}
+
+.skeleton-line.is-short {
+  width: 45%;
+}
+
+.skeleton-hero {
+  aspect-ratio: 4 / 5;
+  max-height: 60vh;
+  margin: 1rem 0 1.5rem;
+  border-radius: var(--radius-lg);
+}
+
+@media (min-width: 768px) {
+  .skeleton-hero {
+    aspect-ratio: 16 / 7;
+  }
+}
+
+.skeleton-circles {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.skeleton-circle {
+  flex: 0 0 84px;
+  height: 84px;
+  border-radius: 50%;
+}
+
+.skeleton-title {
+  width: 40%;
+  height: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+@keyframes skeletonPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+

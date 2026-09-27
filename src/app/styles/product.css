@@ -1,0 +1,736 @@
+/* Ficha de producto */
+
+/* ==========================================================================
+   14. FICHA DE PRODUCTO & PÁGINA DE DETALLE (FASE 5)
+   ========================================================================== */
+
+/* Navegación y Botón de Volver */
+.detail-breadcrumb-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.25rem 0 0.5rem;
+}
+
+.breadcrumb-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  font-weight: 500;
+  min-height: 44px;
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-button);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  transition: all var(--transition-fast);
+}
+
+.breadcrumb-back-btn:hover {
+  color: var(--text-main);
+  background-color: var(--bg-surface-elevated);
+  border-color: var(--border-hover);
+  transform: translateX(-3px);
+}
+
+/* Layout de la Ficha */
+.product-detail-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding: 1.5rem 0 3rem;
+}
+
+@media (min-width: 840px) {
+  .product-detail-layout {
+    grid-template-columns: 1.05fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+}
+
+/* Galería de Imágenes */
+.product-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.product-gallery-main {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--image-ratio);
+  background-color: var(--bg-media-placeholder);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-lg);
+}
+
+.product-gallery-main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: gallery-fade var(--transition-normal);
+}
+
+@keyframes gallery-fade {
+  from {
+    opacity: 0.4;
+  }
+}
+
+/* Toda la foto es un botón que abre la vista ampliada */
+.gallery-zoom-trigger {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: zoom-in;
+  /* Deslizar con el dedo cambia la foto; el desplazamiento vertical sigue funcionando */
+  touch-action: pan-y pinch-zoom;
+}
+
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--text-main);
+  background-color: color-mix(in srgb, var(--bg-surface) 85%, transparent);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  transition: opacity var(--transition-fast), background-color var(--transition-fast);
+}
+
+.gallery-arrow.is-prev {
+  left: 0.6rem;
+}
+
+.gallery-arrow.is-next {
+  right: 0.6rem;
+}
+
+.product-gallery-main:hover .gallery-arrow,
+.gallery-arrow:focus-visible,
+.gallery-lightbox .gallery-arrow {
+  opacity: 1;
+}
+
+/* En pantallas táctiles se desliza con el dedo: las flechas no tapan la foto */
+@media (hover: none) {
+  .product-gallery-main .gallery-arrow {
+    display: none;
+  }
+}
+
+.gallery-counter {
+  position: absolute;
+  bottom: 0.6rem;
+  right: 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-main);
+  background-color: color-mix(in srgb, var(--bg-surface) 85%, transparent);
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-pill);
+  pointer-events: none;
+}
+
+/* Vista ampliada */
+.gallery-lightbox {
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+}
+
+.gallery-lightbox::backdrop {
+  background-color: color-mix(in srgb, var(--bg-page) 90%, transparent);
+}
+
+.gallery-lightbox-stage {
+  position: absolute;
+  inset: 3.5rem 0.5rem 2.5rem;
+  touch-action: pan-y pinch-zoom;
+}
+
+.gallery-lightbox-img {
+  object-fit: contain;
+}
+
+.gallery-lightbox-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--text-main);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+}
+
+.product-gallery-thumbs {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  scrollbar-width: none;
+}
+
+.product-gallery-thumbs::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery-thumb-btn {
+  position: relative;
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 2px solid var(--border-subtle);
+  background-color: var(--bg-media-placeholder);
+  transition: all var(--transition-fast);
+}
+
+.gallery-thumb-btn:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+
+.gallery-thumb-btn.active {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.gallery-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Columna de Información del Producto */
+.product-detail-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-header-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.detail-meta-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.75rem;
+}
+
+.detail-brand-link {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: underline;
+  text-decoration-color: var(--border-hover);
+  text-underline-offset: 3px;
+}
+
+.detail-brand-link:hover {
+  color: var(--text-main);
+}
+
+.detail-category-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-text);
+}
+
+.detail-sku-tag {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background-color: var(--bg-surface-elevated);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
+}
+
+.detail-title {
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-weight: var(--heading-weight-strong);
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+/* Bloque de Precios en Ficha */
+.detail-pricing-card {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.detail-price-current {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: var(--heading-weight-strong);
+  color: var(--text-main);
+}
+
+.detail-price-original {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.detail-discount-pill {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--sale-text);
+  background-color: var(--sale-surface);
+  border: 1px solid var(--sale-border);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-pill);
+}
+
+/* Stock y Disponibilidad */
+.detail-stock-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--success-text);
+  margin-bottom: 1.5rem;
+}
+
+.detail-stock-indicator.is-sold-out {
+  color: var(--text-muted);
+}
+
+.detail-stock-indicator.is-sold-out .detail-stock-dot {
+  background-color: var(--text-muted);
+  box-shadow: none;
+}
+
+.detail-stock-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--success-text);
+  box-shadow: 0 0 10px var(--success-glow);
+}
+
+/* Descripción */
+.detail-description {
+  white-space: pre-line;
+  color: var(--text-secondary);
+  font-size: 0.98rem;
+  line-height: 1.7;
+  margin-bottom: 1.75rem;
+}
+
+/* Lista de Características Clave */
+.detail-features-box {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.detail-features-box h2 {
+  font-size: 0.92rem;
+  font-weight: var(--heading-weight);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-main);
+  margin-bottom: 0.85rem;
+}
+
+.detail-features-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.detail-features-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.detail-features-item svg {
+  color: var(--accent-text);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Selector de Cantidad */
+.quantity-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.quantity-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-button);
+  padding: 0.25rem 0.5rem;
+}
+
+.quantity-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-main);
+  background-color: var(--interactive-bg-subtle);
+  font-size: 1.1rem;
+  font-weight: 700;
+  transition: all var(--transition-fast);
+}
+
+.quantity-btn:hover:not(:disabled) {
+  background-color: var(--border-hover);
+  color: var(--text-main);
+}
+
+.quantity-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.quantity-value {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: var(--heading-weight-strong);
+  min-width: 24px;
+  text-align: center;
+}
+
+/* Botón Grande de Pedido por WhatsApp */
+.btn-whatsapp-detail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1.15rem 1.5rem;
+  background-color: var(--wa-color);
+  color: var(--wa-contrast-text);
+  font-size: 1.05rem;
+  font-weight: 700;
+  border-radius: var(--radius-button);
+  box-shadow: var(--shadow-wa);
+  transition: background-color var(--transition-fast), box-shadow var(--transition-normal), transform var(--transition-normal);
+  text-align: center;
+}
+
+.btn-whatsapp-detail:disabled {
+  background-color: var(--bg-surface-elevated);
+  color: var(--text-muted);
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-whatsapp-detail:hover:not(:disabled) {
+  background-color: var(--wa-hover);
+  box-shadow: 0 12px 30px -5px var(--wa-strong-glow);
+  transform: translateY(-2px);
+}
+
+.btn-whatsapp-detail:active:not(:disabled) {
+  background-color: var(--wa-active);
+  transform: scale(0.98);
+}
+
+/* Agotado: "Preguntar disponibilidad" con estilo secundario */
+.btn-whatsapp-detail.is-ask {
+  background-color: var(--wa-surface);
+  color: var(--wa-text);
+  border: 1px solid var(--wa-border);
+  box-shadow: none;
+}
+
+.btn-whatsapp-detail.is-ask:hover {
+  background-color: var(--wa-surface);
+  box-shadow: 0 8px 20px -8px var(--wa-glow);
+}
+
+.btn-whatsapp-detail-total {
+  background-color: color-mix(in srgb, var(--wa-contrast-text) 12%, transparent);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-xs);
+  font-size: 0.95rem;
+}
+
+/* Garantía y Confianza */
+.trust-badges-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+  text-align: center;
+}
+
+.trust-badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.trust-badge-item svg {
+  color: var(--accent-text);
+}
+
+.trust-badge-item span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Selector de opciones (tonos, tamaños) */
+.variant-picker {
+  border: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  min-width: 0;
+}
+
+.variant-picker-legend {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+  padding: 0;
+}
+
+.variant-picker-legend strong {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.variant-picker-soldout {
+  margin-left: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background-color: var(--bg-surface-elevated);
+  padding: 0.1rem 0.5rem;
+  border-radius: var(--radius-pill);
+}
+
+.variant-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.variant-option {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+/* Muestra de color: círculo con anillo al elegirla (44px para el dedo) */
+.variant-option.is-swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+}
+
+.variant-swatch {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--border-hover);
+}
+
+.variant-option.is-swatch:hover {
+  border-color: var(--border-hover);
+}
+
+.variant-option.is-swatch.is-selected {
+  border-color: var(--accent-color);
+}
+
+/* Píldora de texto (tamaños, presentaciones) */
+.variant-option.is-pill {
+  min-height: 44px;
+  padding: 0.45rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-main);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-button);
+}
+
+.variant-option.is-pill:hover {
+  border-color: var(--border-hover);
+}
+
+.variant-option.is-pill.is-selected {
+  border-color: var(--accent-color);
+  box-shadow: inset 0 0 0 1px var(--accent-color);
+  font-weight: 600;
+}
+
+/* Agotada: se puede elegir (para preguntar), pero se ve tachada */
+.variant-option.is-unavailable {
+  opacity: 0.55;
+}
+
+.variant-option.is-pill.is-unavailable {
+  text-decoration: line-through;
+}
+
+.variant-option.is-swatch.is-unavailable::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 38px;
+  background-color: var(--text-main);
+  transform: rotate(45deg);
+  border-radius: 1px;
+}
+
+.variant-option:has(input:focus-visible) {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+/* Botón compartir */
+.btn-share {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  padding: 0.4rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-button);
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.btn-share:hover {
+  color: var(--text-main);
+  border-color: var(--border-hover);
+}
+
+/* Información extra desplegable */
+.info-accordion {
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.info-accordion-item {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.info-accordion-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 52px;
+  padding: 0.75rem 0;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  list-style: none;
+}
+
+.info-accordion-summary::-webkit-details-marker {
+  display: none;
+}
+
+.info-accordion-icon {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: transform var(--transition-fast);
+}
+
+.info-accordion-item[open] .info-accordion-icon {
+  transform: rotate(180deg);
+}
+
+.info-accordion-body {
+  white-space: pre-line;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  padding-bottom: 1rem;
+}
+
+/* Sección de Productos Relacionados */
+.related-products-section {
+  padding: 3rem 0 1rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.related-products-section h2 {
+  font-size: 1.35rem;
+  margin-bottom: 1.5rem;
+}

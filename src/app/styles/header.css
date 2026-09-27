@@ -1,0 +1,174 @@
+/* Franja superior y cabecera */
+
+/* 1. FRANJA SUPERIOR */
+.announcement-bar {
+  background: var(--announcement-bg);
+  color: var(--announcement-text);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 36px;
+  padding: 0.4rem 1rem;
+}
+
+.announcement-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 28px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+/* 2. CABECERA */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg-surface-glass);
+  backdrop-filter: saturate(1.4) blur(14px);
+  -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.site-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: var(--header-height);
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 44px;
+}
+
+.brand-logo-image {
+  height: 40px;
+  width: auto;
+  max-width: 150px;
+  object-fit: contain;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.brand-name {
+  font-family: var(--font-heading);
+  font-weight: var(--heading-weight);
+  font-size: 1.3rem;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.brand-tagline {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.header-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-button);
+  color: var(--text-main);
+  transition: background-color var(--transition-fast);
+}
+
+.header-icon-btn:hover {
+  background-color: var(--interactive-bg-subtle);
+}
+
+.header-icon-btn[aria-disabled='true'] {
+  cursor: default;
+}
+
+.header-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 0.7rem;
+  margin-left: 0.25rem;
+  background-color: var(--wa-surface);
+  border: 1px solid var(--wa-border);
+  color: var(--text-main);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: var(--radius-button);
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.header-cta-btn svg {
+  color: var(--wa-text);
+}
+
+.header-cta-btn:hover {
+  background-color: var(--wa-color);
+  color: var(--wa-contrast-text);
+  border-color: var(--wa-color);
+}
+
+.header-cta-btn:hover svg {
+  color: inherit;
+}
+
+/* En celulares angostos el botón de contacto muestra solo el ícono (el texto sigue para lectores de pantalla) */
+@media (max-width: 479px) {
+  .brand-tagline {
+    display: none;
+  }
+
+  .header-cta-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .header-cta-btn {
+    padding: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .brand-name {
+    font-size: 1.5rem;
+  }
+
+  .header-cta-btn {
+    padding: 0 1.1rem;
+  }
+}
